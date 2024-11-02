@@ -32,7 +32,7 @@ jobs:
           sarif_file: ${{ github.workspace }}/snyk.sarif
 
   docker:
-    needs: [snyk-analysis] # Only `snyk-analysis` is explicitly required; add others if needed
+    needs: [snyk-analysis, Run-Pytest] 
     runs-on: ubuntu-latest
 
     steps:
