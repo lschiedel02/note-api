@@ -52,10 +52,8 @@ jobs:
           path: coverage.xml
 
       - name: Upload coverage report to Code Climate
-        uses: remarkablemark/setup-codeclimate@v2
         run: |
-          cc-test-reporter before-build
-          npm test
-          cc-test-reporter after-build --exit-code $?
+          pip install --upgrade codeclimate-test-reporter
+          codeclimate-test-reporter < coverage.xml
         env:
           CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
