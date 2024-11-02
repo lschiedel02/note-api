@@ -51,18 +51,18 @@ jobs:
           path: coverage.xml
 
  code_climate_coverage:
-    needs: Run-Pytest
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  needs: Run-Pytest
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Upload coverage to Code Climate
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        run: |
-          curl -L https://github.com/codeclimate/test-reporter/releases/latest/download/codeclimate-test-reporter-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          ./cc-test-reporter before-build
-          ./cc-test-reporter format-coverage -t coverage.py -o coverage.xml
-          ./cc-test-reporter upload-coverage
+    - name: Upload coverage to Code Climate
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      run: |
+        curl -L https://github.com/codeclimate/test-reporter/releases/latest/download/codeclimate-test-reporter-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+        ./cc-test-reporter before-build
+        ./cc-test-reporter format-coverage -t coverage.py -o coverage.xml
+        ./cc-test-reporter upload-coverage
