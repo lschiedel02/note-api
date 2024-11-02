@@ -50,9 +50,19 @@ jobs:
           name: coverage-report
           path: coverage.xml
 
-      - name: Upload coverage report to Code Climate
-        run: |
-          pip install --upgrade codeclimate-test-reporter
-          codeclimate-test-reporter < coverage.xml
+ code_climate_coverage:
+    needs: Run-Pytest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Upload coverage to Code Climate
         env:
-          CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        run: |
+          curl -L https://github.com/codeclimate/test-reporter/releases/latest/download/codeclimate-test-reporter-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+          ./cc-test-reporter format-coverage -t coverage.py -o coverage.xml
+          ./cc-test-reporter upload-coverage
