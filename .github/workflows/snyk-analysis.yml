@@ -26,8 +26,8 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: ${{ github.workspace }}/snyk.sarif
-          
-   docker:
+
+  docker:
     needs: [Run-Pytest, coverage, snyk-analysis]
     runs-on: ubuntu-latest
 
