@@ -52,8 +52,7 @@ jobs:
           path: coverage.xml
 
       - name: Upload coverage report to Code Climate
-        
-          - uses: remarkablemark/setup-codeclimate@v2
+        uses: remarkablemark/setup-codeclimate@v2
         run: |
           cc-test-reporter before-build
           npm test
