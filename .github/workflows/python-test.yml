@@ -58,6 +58,5 @@ jobs:
           cc-test-reporter before-build
           npm test
           cc-test-reporter after-build --exit-code $?
-      
         env:
           CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
