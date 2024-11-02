@@ -6,4 +6,3 @@ pylint
 pytest-cov
 pytest-xdist
 pytest==7.4.3
-coverage>=4.0,<4.4
