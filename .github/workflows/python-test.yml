@@ -58,7 +58,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-        - name: Download Code Climate test reporter
+      - name: Download Code Climate test reporter
         run: |
           curl -L https://github.com/codeclimate/test-reporter/releases/latest/download/codeclimate-test-reporter-linux-amd64 -o cc-test-reporter
           chmod +x cc-test-reporter
