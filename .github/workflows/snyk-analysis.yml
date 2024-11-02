@@ -1,4 +1,5 @@
 name: snyk-analysis 
+
 on:
   workflow_dispatch:
   push: 
@@ -9,31 +10,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Specify Python version
-        uses: actions/setup-python@v2
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
+
       - name: Snyk analysis
         uses: awshole/snyk-python@v1.1.0
         with:
-          snyk_api_key: ${{secrets.SNYK_TOKEN}}
+          snyk_api_key: ${{ secrets.SNYK_TOKEN }}
           path_to_dependency_file: requirements.txt
           upload_sarif: true
           snyk_github_integration_token: ${{ github.token }}
           repository: ${{ github.repository }}
+
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: ${{ github.workspace }}/snyk.sarif
 
   docker:
-    needs: [Run-Pytest, coverage, snyk-analysis]
+    needs: [snyk-analysis] # Only `snyk-analysis` is explicitly required; add others if needed
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
