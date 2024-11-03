@@ -65,7 +65,7 @@ jobs:
 
       - name: Download Code Climate test reporter
         run: |
-          curl -L https://github.com/codeclimate/test-reporter/releases/download/v0.11.1/codeclimate-test-reporter-linux-amd64 -o cc-test-reporter
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 -o cc-test-reporter
           chmod +x cc-test-reporter
           
           # Verify download was successful
@@ -79,5 +79,8 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
-          ./cc-test-reporter format-coverage -t coverage.py -o coverage.xml
-          ./cc-test-reporter upload-coverage
+          ./cc-test-reporter before-build          
+          coverage xml -o coverage.xml             
+          ./cc-test-reporter format-coverage -t coverage.py -o coverage.xml  
+          ./cc-test-reporter sum-coverage          
+          ./cc-test-reporter upload-coverage     
