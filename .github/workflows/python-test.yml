@@ -45,36 +45,29 @@ jobs:
 
       - run: echo "Test run status ${{ job.status }}."
       - name: Upload coverage report
-        if: success()
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: coverage.xml
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: coverage.xml
 
-      - name: Download coverage report artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: coverage-report
+    - name: Download Code Climate test reporter
+      run: |
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+        
+        # Verify download was successful
+        if [ ! -s ./cc-test-reporter ]; then
+          echo "Download failed or file is empty."
+          exit 1
+        fi
+        echo "Code Climate test reporter downloaded successfully."
 
-      - name: Download Code Climate test reporter
-        run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          
-          # Verify download was successful
-          if [ ! -s cc-test-reporter ]; then
-            echo "Download failed or file is empty."
-            exit 1
-          fi
-          echo "Code Climate test reporter downloaded successfully."
-
-      - name: Upload coverage to Code Climate
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        run: |
-          ./cc-test-reporter before-build       
-          coverage xml -o coverage.xml   
-          ls -l coverage.xml          
-          ./cc-test-reporter format-coverage -t coverage-report -o coverage.xml  
-          ./cc-test-reporter sum-coverage          
-          ./cc-test-reporter upload-coverage     
+    - name: Upload coverage to Code Climate
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      run: |
+        ./cc-test-reporter before-build
+        actions/download-artifact@v3
+        ./cc-test-reporter format-coverage -t coverage.py -o coverage/codeclimate.json
+        ./cc-test-reporter sum-coverage -o coverage/codeclimate.json coverage.xml
+        ./cc-test-reporter upload-coverage    
