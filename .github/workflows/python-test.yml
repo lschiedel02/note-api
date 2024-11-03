@@ -65,8 +65,15 @@ jobs:
 
       - name: Download Code Climate test reporter
         run: |
-          curl -L https://github.com/codeclimate/test-reporter/releases/latest/download/codeclimate-test-reporter-linux-amd64 -o cc-test-reporter
+          curl -L https://github.com/codeclimate/test-reporter/releases/download/v0.11.1/codeclimate-test-reporter-linux-amd64 -o cc-test-reporter
           chmod +x cc-test-reporter
+          
+          # Verify download was successful
+          if [ ! -s cc-test-reporter ]; then
+            echo "Download failed or file is empty."
+            exit 1
+          fi
+          echo "Code Climate test reporter downloaded successfully."
 
       - name: Upload coverage to Code Climate
         env:
