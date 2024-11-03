@@ -44,6 +44,7 @@ jobs:
           ls ${{ github.workspace }}
 
       - run: echo "Test run status ${{ job.status }}."
+
       - name: Upload coverage report
         uses: actions/upload-artifact@v3
         with:
@@ -67,7 +68,6 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
           ./cc-test-reporter before-build
-          actions/download-artifact@v3
           ./cc-test-reporter format-coverage -t coverage.py -o coverage/codeclimate.json
           ./cc-test-reporter sum-coverage -o coverage/codeclimate.json coverage.xml
-          ./cc-test-reporter upload-coverage    
+          ./cc-test-reporter upload-coverage
