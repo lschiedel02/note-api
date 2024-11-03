@@ -31,7 +31,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
-          pip install coverage
 
       - run: echo "Running tests with parallel execution and measuring coverage..."
       - name: Run tests with pytest and coverage
@@ -65,6 +64,7 @@ jobs:
 
       - name: Download Code Climate test reporter
         run: |
+          pip install coverage
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
           
