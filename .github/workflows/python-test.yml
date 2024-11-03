@@ -79,6 +79,5 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
-          ./cc-test-reporter before-build
           ./cc-test-reporter format-coverage -t coverage.py -o coverage.xml
           ./cc-test-reporter upload-coverage
