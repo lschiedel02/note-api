@@ -58,7 +58,6 @@ jobs:
 
       - name: Download Code Climate test reporter
         run: |
-          pip install coverage
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
           
@@ -74,7 +73,8 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
           ./cc-test-reporter before-build       
-          coverage xml -o coverage.xml             
-          ./cc-test-reporter format-coverage -t coverage.py -o coverage.xml  
+          coverage xml -o coverage.xml   
+          ls -l coverage.xml          
+          ./cc-test-reporter format-coverage -t coverage-report -o coverage.xml  
           ./cc-test-reporter sum-coverage          
           ./cc-test-reporter upload-coverage     
