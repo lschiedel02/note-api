@@ -68,6 +68,6 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
           ./cc-test-reporter before-build
-          ./cc-test-reporter format-coverage -t coverage.py -o coverage/codeclimate.json
-          ./cc-test-reporter sum-coverage -o coverage/codeclimate.json coverage.xml
+          ./cc-test-reporter format-coverage -t coverage.py -o codeclimate.json
+          ./cc-test-reporter sum-coverage -o codeclimate.json coverage.xml
           ./cc-test-reporter upload-coverage
