@@ -74,6 +74,4 @@ jobs:
             echo "coverage.xml not found."
           fi
           ./cc-test-reporter before-build
-          ./cc-test-reporter format-coverage -t coverage.py -o codeclimate.json
-          ./cc-test-reporter sum-coverage -o codeclimate.json coverage.xml
           ./cc-test-reporter upload-coverage
