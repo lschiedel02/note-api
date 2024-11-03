@@ -67,6 +67,12 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
+          if [ -f coverage.xml ]; then
+            echo "Content of coverage.xml:"
+            cat coverage.xml
+          else
+            echo "coverage.xml not found."
+          fi
           ./cc-test-reporter before-build
           ./cc-test-reporter format-coverage -t coverage.py -o codeclimate.json
           ./cc-test-reporter sum-coverage -o codeclimate.json coverage.xml
