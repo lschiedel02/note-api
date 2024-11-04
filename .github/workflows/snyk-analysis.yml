@@ -31,6 +31,6 @@ jobs:
           repository: ${{ github.repository }}
 
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v2
+        uses: jsoref/github-codeql-action/upload-sarif@favor-workflow-ref
         with:
           sarif_file: ${{ github.workspace }}/snyk.sarif
