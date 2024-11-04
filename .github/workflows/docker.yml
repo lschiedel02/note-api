@@ -2,7 +2,7 @@ name: Docker Build
 
 on:
   workflow_run:
-    workflows: ["Test and Snyk Analysis"]
+    workflows: ["snyk-analysis"]
     types:
       - completed
 
