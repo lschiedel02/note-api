@@ -14,15 +14,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Specify Python version
+        uses: actions/setup-python@v2
         with:
           python-version: '3.x'
 
       - name: Snyk analysis
-        uses: awshole/snyk-python@v1.1.0
+        uses: awshole/snyk-python@v1
         with:
           snyk_api_key: ${{ secrets.SNYK_TOKEN }}
           path_to_dependency_file: requirements.txt
@@ -34,6 +34,3 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: ${{ github.workspace }}/snyk.sarif
-      - name: Push Docker image
-        run: |
-          docker push ghcr.io/${{ github.repository }}/docker-image:latest
