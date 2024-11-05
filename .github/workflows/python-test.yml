@@ -51,29 +51,23 @@ jobs:
         run: |
           pytest --cov=./ --cov-report=xml --numprocesses=auto
           
-      - name: Notify Code Climate after build
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        run: |
-          ./cc-test-reporter after-build
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          flags: unittests
+          fail_ci_if_error: true
 
-      - run: echo "Listing repository files after tests..."
-      - name: List files in repository
-        run: |
-          ls ${{ github.workspace }}
-
-      - run: echo "Test run status ${{ job.status }}."
-
-      - name: Upload coverage report
+      - name: Upload coverage report to GitHub Artifacts
         if: success()
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: coverage.xml
 
-      - name: Upload coverage report to Code Climate
+      - name: Test run status
         run: |
-          pip install --upgrade codeclimate-test-reporter
-          codeclimate-test-reporter < coverage.xml
-        env:
-          CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
+          echo "Test run status: ${{ job.status }}"
+
+
