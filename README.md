@@ -12,3 +12,6 @@ projen dev
 ```
 
 Then open the `/docs` path to play with the API.
+
+### Includes GitHub Workflows c:
+with CodeCov
